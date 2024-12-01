@@ -2,7 +2,7 @@ import { IoIosHome } from "react-icons/io";
 import { IoMdListBox } from "react-icons/io";
 import { IoCheckbox } from "react-icons/io5";
 import { LuListTodo } from "react-icons/lu";
-const menuItem = [
+const menu = [
   {
     id: 1,
     title: "All Tasks",
@@ -29,4 +29,4 @@ const menuItem = [
   },
 ];
 
-export default menuItem;
+export default menu;
