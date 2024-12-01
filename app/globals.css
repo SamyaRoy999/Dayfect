@@ -26,3 +26,7 @@ body {
   background: var(--sidebarBg);
   border: 1px solid var(--sidebarborder);
 }
+
+.sideBar-menu {
+  background: var(--sidebarborder);
+}
