@@ -11,6 +11,7 @@ const Sidebar = () => {
 
   return (
     <div className="lg:w-2/12 side-bar h-[90vh] lg:m-7 rounded-lg ">
+      {/* avater for user */}
       <div className=" flex flex-col items-center gap-2 my-7">
         <Image
           width={40}
@@ -20,7 +21,8 @@ const Sidebar = () => {
           alt="Bordered avatar"
         />
         <h3 className="font-bold ">Najrin lipi</h3>
-
+        {/* avater for user */}
+        {/* page manu */}
         <ul className="w-full lg:mt-12 ">
           {menu.map((item) => (
             <li
@@ -28,13 +30,10 @@ const Sidebar = () => {
               className={`lg:w-full ${
                 pathname === item.link
                   ? "sideBar-menu  py-2 border-r-4 border-teal-800"
-                  : ""
+                  : "py-2"
               }`}
             >
-              <Link
-                href={item.link}
-                className="flex items-center ml-5 py-2  gap-3"
-              >
+              <Link href={item.link} className="flex items-center ml-5   gap-3">
                 <div className="font-bold text-xl">
                   <item.icon />
                 </div>
@@ -43,6 +42,7 @@ const Sidebar = () => {
             </li>
           ))}
         </ul>
+        {/* page manu end*/}
       </div>
     </div>
   );

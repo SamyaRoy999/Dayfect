@@ -2,6 +2,8 @@ import { IoIosHome } from "react-icons/io";
 import { IoMdListBox } from "react-icons/io";
 import { IoCheckbox } from "react-icons/io5";
 import { LuListTodo } from "react-icons/lu";
+
+// menubar obj
 const menu = [
   {
     id: 1,
