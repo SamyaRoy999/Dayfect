@@ -5,7 +5,11 @@ import React from "react";
 import menu from "@/app/utils/menu.js";
 import { usePathname } from "next/navigation";
 
-const Sidebar = () => {
+const Sidebar = ({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) => {
   const pathname = usePathname();
   console.log(menu, pathname);
 
@@ -43,6 +47,7 @@ const Sidebar = () => {
           ))}
         </ul>
         {/* page manu end*/}
+        {children}
       </div>
     </div>
   );
