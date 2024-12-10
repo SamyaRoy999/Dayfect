@@ -1,4 +1,6 @@
+"use client";
 import React from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,14 +11,22 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
+interface IFormInput {
+  email: string;
+  fastName: string;
+  lastName: string;
+}
+
 const CreateTask = () => {
+  const { register, handleSubmit } = useForm<IFormInput>();
+  const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
   return (
     <>
       <AlertDialog>
         <AlertDialogTrigger>Open</AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <form className="w-full mx-auto">
+            <form className="w-full mx-auto" onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-5">
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   Your email
@@ -24,6 +34,7 @@ const CreateTask = () => {
                 <input
                   type="email"
                   id="email"
+                  {...register("email", { required: true })}
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                   placeholder="name@flowbite.com"
                   required
@@ -34,7 +45,8 @@ const CreateTask = () => {
                   Your password
                 </label>
                 <input
-                  type="password"
+                  type="text"
+                  {...register("fastName", { required: true })}
                   id="password"
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                   required
@@ -45,7 +57,8 @@ const CreateTask = () => {
                   Repeat password
                 </label>
                 <input
-                  type="password"
+                  type="text"
+                  {...register("lastName", { required: true })}
                   id="repeat-password"
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                   required
