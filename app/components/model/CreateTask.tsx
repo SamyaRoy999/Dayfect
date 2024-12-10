@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import axios from "axios";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,14 +13,40 @@ import {
 } from "@/components/ui/alert-dialog";
 
 interface IFormInput {
-  email: string;
-  fastName: string;
+  title: string;
+  description: string;
   lastName: string;
+  date: string;
+  completed: boolean;
+  impotant: boolean;
 }
 
 const CreateTask = () => {
   const { register, handleSubmit } = useForm<IFormInput>();
-  const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    const payload = {
+      ...data,
+      date: new Date(data.date).toISOString(), // ISO Format এ রূপান্তর
+      completed: !!data.completed, // Boolean মানে রূপান্তর
+      impotant: !!data.impotant, // Boolean মানে রূপান্তর
+    };
+    console.log(payload);
+
+    try {
+      const res = await axios.post("/api/task", payload);
+      console.log(res.data);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(
+          "API Error:",
+          error.response?.data || "Unknown Axios error"
+        );
+      } else {
+        console.error("Unexpected Error:", error);
+      }
+    }
+  };
+
   return (
     <>
       <AlertDialog>
@@ -29,12 +56,12 @@ const CreateTask = () => {
             <form className="w-full mx-auto" onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-5">
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                  Your email
+                  Title
                 </label>
                 <input
-                  type="email"
+                  type="text"
                   id="email"
-                  {...register("email", { required: true })}
+                  {...register("title", { required: true })}
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                   placeholder="name@flowbite.com"
                   required
@@ -42,26 +69,45 @@ const CreateTask = () => {
               </div>
               <div className="mb-5">
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                  Your password
+                  Description
                 </label>
                 <input
                   type="text"
-                  {...register("fastName", { required: true })}
+                  {...register("description", { required: true })}
                   id="password"
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                   required
                 />
               </div>
+
               <div className="mb-5">
                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   Repeat password
                 </label>
                 <input
-                  type="text"
-                  {...register("lastName", { required: true })}
+                  type="date"
+                  {...register("date", { required: true })}
                   id="repeat-password"
                   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
                   required
+                />
+              </div>
+
+              <div className="p-2">
+                <label htmlFor="">Toggle completed</label>
+                <input
+                  type="checkbox"
+                  {...register("completed", {})}
+                  className="mx-3"
+                />
+              </div>
+
+              <div className="p-2">
+                <label htmlFor="">Toggle impotant</label>
+                <input
+                  type="checkbox"
+                  {...register("impotant", {})}
+                  className="mx-3"
                 />
               </div>
 

@@ -1,19 +1,17 @@
 import prisma from "@/app/utils/connet";
-import { auth } from "@clerk/nextjs/server";
-
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const { userId } = auth();
+    const body = await req.json();
+    console.log("Request Body:", body);
+    const { title, description, date, completed, impotant } = body;
 
-    if (!userId) {
-      return NextResponse.json({ error: "Unauthorized", status: 401 });
-    }
-
-    const { title, description, date, completed, impotant } = await req.json();
     if (!title || !description || !date) {
-      return NextResponse.json({ error: "missing requerd fild", status: 500 });
+      return NextResponse.json({
+        error: "missing required fields",
+        status: 400,
+      });
     }
 
     const task = await prisma.task.create({
@@ -21,16 +19,17 @@ export async function POST(req: Request) {
         title,
         description,
         date,
-        isCompleted: completed,
-        IsImpotant: impotant,
+        isCompleted: completed || false,
+        IsImpotant: impotant || false,
       },
     });
     return NextResponse.json(task);
   } catch (error) {
-    console.log("ERROR CREATEING TASK", error);
-    return NextResponse.json({ error: "ERROR CREATEING TASK", status: 500 });
+    console.error("ERROR CREATING TASK:", error);
+    return NextResponse.json({ error: "Internal Server Error", status: 500 });
   }
 }
+
 export async function GET() {
   try {
   } catch (error) {

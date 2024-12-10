@@ -19,15 +19,14 @@ model User {
   email String @unique
 }
 
-model Task{
-  id          String  @id @default(cuid()) @map("id")
+model Task {
+  id          String   @id @default(cuid())
   title       String
   description String?
-  date        String  
+  date        String
   isCompleted Boolean  @default(false)
   IsImpotant  Boolean  @default(false)
-
-  createdAt   DateTime @default(now()) @map("createdAt")
-  updateAt    DateTime @default(now()) @updatedAt @map("updateAt")
-  userId      String
+  createdAt   DateTime @default(now())
+  updateAt    DateTime @default(now()) @updatedAt
 }
+
